@@ -5,7 +5,7 @@
 #ifndef FILE_SYSTEM_DESIGN_INODE_H
 #define FILE_SYSTEM_DESIGN_INODE_H
 
-#endif //FILE_SYSTEM_DESIGN_INODE_H
+
 
 typedef struct FCB
 {
@@ -20,7 +20,10 @@ typedef struct INODE
     int  access;                 //文件权限
     unsigned short time;         //文件创建时间
     unsigned short date;         //文件创建日期
-    int  direction_chart_id;     //文件索引表对应的磁盘块号
+    int  direction_chart_id;     //文件索引表所在的磁盘块号
     unsigned long length;        //文件长度（字节数）
     char username[8];            //文件所属用户名
 }inode;
+
+
+#endif //FILE_SYSTEM_DESIGN_INODE_H

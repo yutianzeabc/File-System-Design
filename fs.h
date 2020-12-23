@@ -5,7 +5,7 @@
 #ifndef FILE_SYSTEM_DESIGN_FS_H
 #define FILE_SYSTEM_DESIGN_FS_H
 
-#endif //FILE_SYSTEM_DESIGN_FS_H
+
 
 #define BLOCK_SIZE 1024      //1KB
 #define SIZE 1024000         //1000KB
@@ -40,3 +40,5 @@ typedef struct USEROPEN
     int inodestate;          //索引节点是否修改
     int openlabel;           //系统打开文件表表项是否被占用
 }useropen;
+
+#endif //FILE_SYSTEM_DESIGN_FS_H
