@@ -8,8 +8,8 @@
 #endif //FILE_SYSTEM_DESIGN_FS_H
 
 #define BLOCK_SIZE 1024      //1KB
-#define SIZE 10240000        //10000KB
-#define BLOCK0_NUM 2         //引导块初始占2个盘块
+#define SIZE 1024000         //1000KB
+#define BLOCK0_NUM 2         //引导块初始占1个盘块
 #define ROOT_BLOCK_NUM 2     //根目录初始占2个盘块
 #define INODE_TABLE_NUM 2    //索引节点共占2个盘块
 #define SUPER_BLOCK_NUM 1    //超级块共占1个盘块
@@ -20,10 +20,10 @@ typedef struct BLOCK0
     int block_size;          //磁盘块大小
     int block_num;           //磁盘块数量
     int root;                //根目录的起始盘块号
-    void *inode_table_start; //虚拟磁盘上索引节点开始位置
-    void *root_start;        //虚拟磁盘上根目录开始位置
-    void *data_start;        //虚拟磁盘上数据区开始位置
-    void *super_start;       //虚拟磁盘上超级快开始位置
+    char *inode_table_start; //虚拟磁盘上索引节点开始位置
+    char *root_start;        //虚拟磁盘上根目录开始位置
+    char *data_start;        //虚拟磁盘上数据区开始位置
+    char *super_start;       //虚拟磁盘上超级快开始位置
     char information[200];   //描述信息
 }block0;
 
@@ -37,5 +37,6 @@ typedef struct USEROPEN
     unsigned long length;
     char dir[80];             //文件打开路径
     int count;                //读写指针位置
-    bool inodestate;          //索引节点是否修改
+    int inodestate;          //索引节点是否修改
+    int openlabel;           //系统打开文件表表项是否被占用
 }useropen;
