@@ -5,8 +5,6 @@
 #ifndef FILE_SYSTEM_DESIGN_INODE_H
 #define FILE_SYSTEM_DESIGN_INODE_H
 
-#endif //FILE_SYSTEM_DESIGN_INODE_H
-
 typedef struct FCB
 {
     char filename[20];
@@ -24,3 +22,5 @@ typedef struct INODE
     unsigned long length;        //文件长度（字节数）
     char username[8];            //文件所属用户名
 }inode;
+
+#endif //FILE_SYSTEM_DESIGN_INODE_H
