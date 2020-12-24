@@ -37,6 +37,7 @@ typedef struct USEROPEN
     int count;                //读写指针位置
     int inodestate;          //索引节点是否修改
     int openlabel;           //系统打开文件表表项是否被占用
+    int direction_chart_id;    //文件索引表所在的磁盘块号
 }useropen;
 
 char *free_block_stack;      //空闲盘块栈指针
