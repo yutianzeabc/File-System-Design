@@ -52,4 +52,5 @@ int *S_free;                  //空闲盘块栈顶指针
 static int inode_id = 0;      //索引节点全局编号
 int curr_dir_inode;           //当前目录文件的索引节点编号
 useropen USEROPENS[10];       //系统文件打开表
+
 #endif //FILE_SYSTEM_DESIGN_FS_H

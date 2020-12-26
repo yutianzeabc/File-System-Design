@@ -73,5 +73,4 @@ inode find_inode(int id)
     memcpy(&temp,virtualDisk+2*BLOCK_SIZE+id*sizeof(inode),sizeof(inode)*1);
     return temp;
 }
-
 #endif
