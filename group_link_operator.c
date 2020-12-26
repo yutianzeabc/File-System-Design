@@ -2,6 +2,8 @@
 // Created by 孙鹏 on 2020/12/23.
 //
 
+#ifndef FILE_SYSTEM_DESIGN_FS_GROUP_LINK_OPERATOR
+#define FILE_SYSTEM_DESIGN_FS_GROUP_LINK_OPERATOR
 
 #include <string.h>
 #include "fs.h"
@@ -58,6 +60,7 @@ void recycle_block(int id)
     }
 }
 
+#endif
 /*
 
 int request_block()
