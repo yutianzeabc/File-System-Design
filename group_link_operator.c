@@ -59,7 +59,7 @@ void recycle_block(int id)
         S_free++;
     }
 }
-#endif
+#endif //FILE_SYSTEM_DESIGN_FS_GROUP_LINK_OPERATOR
 /*
 
 int request_block()

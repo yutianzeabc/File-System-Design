@@ -21,9 +21,9 @@ typedef struct BLOCK0
     char *inode_table_start; //虚拟磁盘上索引节点开始位置
     char *root_start;        //虚拟磁盘上根目录开始位置
     char *data_start;        //虚拟磁盘上数据区开始位置
-    char *super_start;       //虚拟磁盘上超级快开始位置
+    char *super_start;       //虚拟磁盘上超级块开始位置
     char information[200];   //描述信息
-}block0;
+} block0;
 
 typedef struct USEROPEN
 {
@@ -38,13 +38,13 @@ typedef struct USEROPEN
     int count;                //读写指针位置
     int inodestate;           //索引节点是否修改
     int openlabel;            //系统打开文件表表项是否被占用
-}useropen;
+} useropen;
 
 typedef struct INDEX_ELEMENT
 {
     int logical_id;           //逻辑块号
     int physical_id;          //物理块号
-}index_element;
+} index_element;
 
 char *free_block_stack;       //空闲盘块栈指针
 char *virtualDisk;            //虚拟磁盘指针
