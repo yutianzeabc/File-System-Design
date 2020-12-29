@@ -22,6 +22,6 @@ typedef struct INODE
     unsigned long length;        //文件长度（字节数）
     char username[8];            //文件所属用户名
 } inode;
-
+at
 
 #endif //FILE_SYSTEM_DESIGN_INODE_H

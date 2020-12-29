@@ -28,12 +28,13 @@ typedef struct BLOCK0
 typedef struct USEROPEN
 {
     char filename[20];
+    int inode_id;
     int attribute;
     int access;
     unsigned long time;
     unsigned long date;
     unsigned long length;
-    char dir[80];             //文件打开路径
+//    char dir[20];             //文件打开路径
     int direction_chart_id;   //文件索引表所在磁盘块号
     int count;                //读写指针位置
     int inodestate;           //索引节点是否修改
@@ -51,6 +52,7 @@ char *virtualDisk;            //虚拟磁盘指针
 int *S_free;                  //空闲盘块栈顶指针
 static int inode_id = 0;      //索引节点全局编号
 int curr_dir_inode;           //当前目录文件的索引节点编号
+//char curr_dir_name[20] = {};       //当前目录文件的目录名
 useropen USEROPENS[10];       //系统文件打开表
 
 #endif //FILE_SYSTEM_DESIGN_FS_H
