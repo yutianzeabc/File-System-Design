@@ -5,18 +5,9 @@
 #include "fs.h"
 #include "inode.h"
 #include <string.h>
+#include <stdio.h>
 #include "group_link_operator.c"
 
-
-int my_read(int fd,int len){
-    
-    int id=openlist[fd].direction_chart_id;
-    
-    
-    
-    
-
-}
 
 int my_write(int fd,int mode){
     if(fd>=openlist_length){
@@ -44,6 +35,7 @@ int my_write(int fd,int mode){
             int new_blocknum=request_block();//申请
             *(begin_addr+(2*cnt)*sizeof(int))=cnt;//写到文件索引表 第一列
             *(begin_addr+(2*cnt+1)*sizeof(int))=new_blocknum;//写到文件索引表 第二列
+            cnt=cnt+1;
             if(new_blocknum==-1){
                 printf("[In my_write() mode 'w']:Try to allocate one block for writing, but failed!\n");
             }
@@ -129,10 +121,24 @@ int my_write(int fd,int mode){
         }
         //剩余
         memcpy(cursor_addr+last_pointer,str+str_cursor,waiting_len*sizeof(char));
+        openlist[fd].length+=str_len;//更新openlist中长度
 
 
-
-    }else if(mode==2){
+    }else if(mode==2){//插入覆盖写
+        int continue_b=openlist[fd].count;//插入指针在总字节的位置 0开始
+        if(continue_b+1>ori_length){
+            printf("Error [In my_write() mode 'c']: Position of continue bytes error!\n");
+        }
+        char str[BLOCK_SIZE*128];
+        scanf("%s",str);
+        getchar();
+        int str_len=strlen(str);
+        int total_len=+continue_b;
+        if(total_len>128*BLOCK_SIZE){
+            printf("Warning [In my_write() mode 'c']:OverFlow! Will Cut down the tail!\n");
+            str_len=BLOCK_SIZE*128-continue_b;
+        }
+        continue_b/BLOCK_SIZE;
 
     }else{
 
