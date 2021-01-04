@@ -3,14 +3,9 @@
 #include <string>
 #include <vector>
 #include "fs.h"
+#include "my_start_exit.c"
 #include "term.cpp"
 using namespace std;
-
-int start_sys()
-{
-    // TODO: Load & Start FS
-    return 0;
-}
 
 int main(int argc, char const *argv[])
 {

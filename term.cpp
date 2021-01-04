@@ -4,7 +4,7 @@
 #include <cstdio>
 #include <vector>
 #include <algorithm>
-#include "term.hpp"
+#include "cmd.hpp"
 
 using namespace std;
 
