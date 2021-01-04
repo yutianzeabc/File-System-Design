@@ -18,10 +18,20 @@ vector<string> spilt_s(string in) {
     return in_vec;
 }
 
-command parse_command(string cmd) {
-    if (cmd == "exit") return EXIT;
+command parse_commands(string cmd) {
+    if (cmd == "cd") return CD;
+    else if (cmd == "ls") return LS;
+    else if (cmd == "mkdir") return MKDIR;
+    else if (cmd == "rmdir") return RMDIR;
+    else if (cmd == "create") return CREATE;
+    else if (cmd == "rm") return RM;
+    else if (cmd == "open") return OPEN;
+    else if (cmd == "close") return CLOSE;
+    else if (cmd == "read") return READ;
+    else if (cmd == "write") return WRITE;
+    else if (cmd == "exit") return EXIT;
     return UNKNOWN;
-} 
+}
 
 #ifdef TERM_DEBUG
 int main(int argc, char const *argv[])
