@@ -1,3 +1,7 @@
+//
+// Created by 余天泽 on 2020/12/26.
+//
+
 #include <iostream>
 #include <cstdio>
 #include <string>
@@ -9,6 +13,8 @@
 //#include "my_rmdir.c"
 //#include "my_rm.c"
 #include "my_open_close.c"
+#include "my_read.c"
+#include "my_write.c"
 #include "my_start_exit.c"
 #include "term.cpp"
 #include "cmd.hpp"
@@ -17,6 +23,8 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
+    start_sys();
+
     string in;
     while (1)
     {
@@ -32,7 +40,7 @@ int main(int argc, char const *argv[])
             case CD:
                 if (in_vec.size() == 2)
                 {
-                    char *dirname = (char *)(in_vec[1]).c_str();
+                    char *dirname = (in_vec[1]).c_str();
                     my_cd(dirname);
                 }
                 else
@@ -55,7 +63,7 @@ int main(int argc, char const *argv[])
             case MKDIR:
                 if (in_vec.size() == 2)
                 {
-                    char *dirname = (char *)(in_vec[1]).c_str();
+                    char *dirname = (in_vec[1]).c_str();
                     my_mkdir(dirname);
                 }
                 else
@@ -68,7 +76,7 @@ int main(int argc, char const *argv[])
                 if (in_vec.size() == 2)
                 {
                     // TODO:no my_rmdir
-                    char *dirname = (char *)(in_vec[1]).c_str();
+                    char *dirname = (in_vec[1]).c_str();
                     //my_rmdir(dirname);
                 }
                 else
@@ -80,19 +88,7 @@ int main(int argc, char const *argv[])
             case CREATE:
                 if (in_vec.size() == 2)
                 {
-                    char *filename = (char *)(in_vec[1]).c_str();
-                    my_create(filename);
-                }
-                else
-                {
-                    cout << "Illegal Command" << endl;
-                }
-                break;
-
-            case CREATE:
-                if (in_vec.size() == 2)
-                {
-                    char *filename = (char *)(in_vec[1]).c_str();
+                    char *filename = (in_vec[1]).c_str();
                     my_create(filename);
                 }
                 else
@@ -105,7 +101,7 @@ int main(int argc, char const *argv[])
                 if (in_vec.size() == 2)
                 {
                     // TODO:no my_rm
-                    char *filename = (char *)(in_vec[1]).c_str();
+                    char *filename = (in_vec[1]).c_str();
                     //my_rm(filename);
                 }
                 else
@@ -117,7 +113,7 @@ int main(int argc, char const *argv[])
             case OPEN:
                 if (in_vec.size() == 2)
                 {
-                    char *filename = (char *)(in_vec[1]).c_str();
+                    char *filename = (in_vec[1]).c_str();
                     my_open(filename);
                 }
                 else
@@ -129,7 +125,7 @@ int main(int argc, char const *argv[])
             case CLOSE:
                 if (in_vec.size() == 2)
                 {
-                    char *fd_s = (char *)(in_vec[1]).c_str();
+                    char *fd_s = (in_vec[1]).c_str();
                     int fd = atoi(fd_s);
                     my_close(fd);
                 }
@@ -140,11 +136,13 @@ int main(int argc, char const *argv[])
                 break;
 
             case READ:
-                if (in_vec.size() == 2)
+                if (in_vec.size() == 3)
                 {
-                    char *fd_s = (char *)(in_vec[1]).c_str();
+                    char *fd_s = (in_vec[1]).c_str();
+                    char *len_s = (in_vec[2]).c_str();
                     int fd = atoi(fd_s);
-                    my_close(fd);
+                    int len = atoi(len_s);
+                    my_read(fd, len_s);
                 }
                 else
                 {
@@ -152,18 +150,34 @@ int main(int argc, char const *argv[])
                 }
                 break;
 
-            case EXIT:
-                // TODO: Exit & Cleanup
+            case WRITE:
+                if (in_vec.size() == 3)
+                {
+                    char *fd_s = (in_vec[1]).c_str();
+                    char *mode_s = (in_vec[2]).c_str();
+                    int fd = atoi(fd_s);
+                    int mode = atoi(mode_s);
+                    my_write(fd, mode);
+                }
+                else
+                {
+                    cout << "Illegal Command" << endl;
+                }
                 break;
 
             case UNKNOWN:
                 cout << "Unknown Command" << endl;
                 break;
 
+            case EXIT:
+                // TODO: Exit & Cleanup
+                exit_sys();
+                return 0;
+
             default:
                 break; // INPOSSIBLE
             }
         }
     }
-    return 0;
+    return -1;
 }
