@@ -53,6 +53,7 @@ int my_write(int fd,int mode){
             int physics_blocknum=*((int *)(begin_addr+(2*i+1)*sizeof(int)));
             printf("physics_block[%d]:%d .\n",i,physics_blocknum);
         }
+        //获取之前文件的盘块使用情况和last_pointer位置
         int last_pointer=0;
         if((last_pointer=ori_length%1024)==0){
             printf("Already used blocks %d,last_pointer(in new block):%d",i,last_pointer);
@@ -68,40 +69,44 @@ int my_write(int fd,int mode){
             printf("Exit [In my_write() 'a']: Blank input. Return!\n");
             return;
         }
+        //total_len作用开始，仅作check用
         int total_len=ori_length+str_len;
         if(total_len>128*BLOCK_SIZE){
             printf("Warning [In my_write() mode 'a']:OverFlow! Will Cut down the tail!\n");
             str_len=BLOCK_SIZE*128-ori_length;
         }
-        int waiting_len=str_len;
+        //total_len作用结束，仅作check用
         
-        int cnt=i+1;
+        int waiting_len=str_len;
+        int cnt=i+1;//指到逻辑上下一盘块号（此时是未分配的，待命）
         char *init_addr=NULL;
         char *cursor_addr=NULL;
+        
+        //为init_addr和cursor_addr赋值
         if(last_pointer>0){
             int init_blocknum=*(int *)(begin_addr+(i*2+1)*sizeof(int));
             init_addr=virtualDisk+BLOCK_SIZE*init_blocknum;
             cursor_addr=init_addr;
         }else if(last_pointer==0){//文件写至前面盘块恰好用完
-            if (i!=0)//注意：原始文件并非刚打开的空文件（逻辑盘块0肯定是以及分配的）
+            if (i!=0)//特判空文件
             {
+                //！此时的这个文件并非刚打开的空文件（逻辑盘块0肯定是已经分配好的了）
                 //提前分一个新盘块
                 int new_blocknum=request_block();//申请
                 *(int *)(begin_addr+(2*cnt)*sizeof(int))=cnt;//写到文件索引表 第一列
                 *(int *)(begin_addr+(2*cnt+1)*sizeof(int))=new_blocknum;//写到文件索引表 第二列
                 cnt=cnt+1;
-                char *init_addr=virtualDisk+BLOCK_SIZE*new_blocknum;
+                init_addr=virtualDisk+BLOCK_SIZE*new_blocknum;
                 cursor_addr=init_addr;
             }
         }else{
             printf("Error [In my_write() mode 'a']: lastpointer Error! Range of [0,+)!\n");
         }
-        
+        //为init_addr和cursor_addr赋值结束
 
         int str_cursor=0;
         int this_time_write_len=0;
 
-       
         while((waiting_len+last_pointer)>BLOCK_SIZE){
             this_time_write_len=BLOCK_SIZE-last_pointer;
             cursor_addr=cursor_addr+last_pointer;
@@ -125,6 +130,10 @@ int my_write(int fd,int mode){
 
 
     }else if(mode==2){//插入覆盖写
+        int pos;
+        scanf("Input the insert position: %d",&pos);
+        getchar();
+        openlist[fd].count=pos;
         int continue_b=openlist[fd].count;//插入指针在总字节的位置 0开始
         if(continue_b+1>ori_length){
             printf("Error [In my_write() mode 'c']: Position of continue bytes error!\n");
@@ -138,7 +147,10 @@ int my_write(int fd,int mode){
             printf("Warning [In my_write() mode 'c']:OverFlow! Will Cut down the tail!\n");
             str_len=BLOCK_SIZE*128-continue_b;
         }
-        continue_b/BLOCK_SIZE;
+        //此时的str_len为最终写入长度
+        //此时的continue_b为最终写入开始位置
+        int waiting_len=str_len;
+
 
     }else{
 
