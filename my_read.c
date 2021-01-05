@@ -1,6 +1,10 @@
 //
 // Created by 孙夏恩 on 2020/12/29.
 //
+
+#ifndef FILE_SYSTEM_DESIGN_FS_READ
+#define FILE_SYSTEM_DESIGN_FS_READ
+
 #include "common.h"
 #include "fs.h"
 #include "inode.h"
@@ -42,3 +46,5 @@ int my_read(int fd,int len){
     return 0;
 
 }
+
+#endif

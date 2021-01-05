@@ -1,6 +1,10 @@
 //
 // Created by 孙夏恩 on 2020/12/24.
 //
+
+#ifndef FILE_SYSTEM_DESIGN_FS_WRITE
+#define FILE_SYSTEM_DESIGN_FS_WRITE
+
 #include "common.h"
 #include "fs.h"
 #include "inode.h"
@@ -161,8 +165,10 @@ int my_write(int fd,int mode){
 
 
     }else{
-
+        return -1;
     }
    
 
 }
+
+#endif
