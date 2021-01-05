@@ -29,13 +29,16 @@ void my_cd(char *dirname)
     {
           if(strcmp(dirname, curr_dir_fcb->filename)==0)
           {
-              break;
+              inode *temp;
+              temp = get_inode_point(curr_dir_fcb->i_ino);
+              if(temp->attribute==1)
+                  break;
           }
           curr_dir_fcb++;
-    }
+    } //遍历当前目录，找到文件名匹配且文件属性为1
     if (i==(curr_dir_point->length/ sizeof(fcb)))
     {
-        printf("%s Not exist\n",dirname);
+        printf("\n%s Not exist\n",dirname);
         return;
     }
     curr_dir_inode = curr_dir_fcb->i_ino;
