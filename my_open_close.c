@@ -1,3 +1,6 @@
+#ifndef FILE_SYSTEM_DESIGN_FS_OPEN_CLOSE
+#define FILE_SYSTEM_DESIGN_FS_OPEN_CLOSE
+
 #include "fs.h"
 #include "inode.h"
 #include "inode_operator.c"
@@ -93,3 +96,5 @@ int my_close(int fd)
         return 1;
     }
 }
+
+#endif

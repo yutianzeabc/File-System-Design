@@ -1,3 +1,6 @@
+#ifndef FILE_SYSTEM_DESIGN_FS_TERM
+#define FILE_SYSTEM_DESIGN_FS_TERM
+
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -33,6 +36,8 @@ command parse_commands(string cmd) {
     return UNKNOWN;
 }
 
+#endif
+
 #ifdef TERM_DEBUG
 int main(int argc, char const *argv[])
 {
@@ -46,3 +51,4 @@ int main(int argc, char const *argv[])
     return 0;
 }
 #endif
+
