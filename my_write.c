@@ -12,6 +12,7 @@
 int my_write(int fd,int mode){
     if(fd>=MAX_OPEN_FILE){
         printf("[In my_write() mode 'w']:fd out of range!\n");
+        return -1;
     }
     int id=USEROPENS[fd].direction_chart_id;
     int ori_length=USEROPENS[fd].length;
@@ -19,10 +20,11 @@ int my_write(int fd,int mode){
     char * begin_addr=virtualDisk+BLOCK_SIZE*id;//Be Careful!
 
     if(mode==0){ //截断写
+        printf("[mode:0] W\n");
         int init_blocknum=*((int *)(begin_addr+sizeof(int)));
         char *init_addr=virtualDisk+BLOCK_SIZE*init_blocknum;
         char str[BLOCK_SIZE*128];
-        scanf("%s",str);
+        scanf("%[^\n]",str);
         /////
         //还未做异常处理
         /////
@@ -38,6 +40,7 @@ int my_write(int fd,int mode){
             cnt=cnt+1;
             if(new_blocknum==-1){
                 printf("[In my_write() mode 'w']:Try to allocate one block for writing, but failed!\n");
+                return -1;
             }
             cursor_addr=(char*)virtualDisk+BLOCK_SIZE*new_blocknum;
             str_len=str_len-BLOCK_SIZE;
@@ -46,6 +49,7 @@ int my_write(int fd,int mode){
         USEROPENS[fd].length=str_len;//更新USEROPENS中长度
         
     }else if(mode==1){//追加写
+        printf("[mode:1] A\n");
         int i=0;
         for(i=0;i<=num_block_allocated;i++){
             int logic_num=*((int *)(begin_addr+2*i*sizeof(int)));
@@ -62,12 +66,12 @@ int my_write(int fd,int mode){
         }
         
         char str[BLOCK_SIZE*128];
-        scanf("%s",str);
+        scanf("%[^\n]",str);
         getchar();
         int str_len=strlen(str);
         if(str_len==0){
             printf("Exit [In my_write() 'a']: Blank input. Return!\n");
-            return;
+            return -1;
         }
         //total_len作用开始，仅作check用
         int total_len=ori_length+str_len;
@@ -101,6 +105,7 @@ int my_write(int fd,int mode){
             }
         }else{
             printf("Error [In my_write() mode 'a']: lastpointer Error! Range of [0,+)!\n");
+            return -1;
         }
         //为init_addr和cursor_addr赋值结束
 
@@ -121,6 +126,7 @@ int my_write(int fd,int mode){
             cnt=cnt+1;
             if(new_blocknum==-1){
                 printf("Error [In my_write() mode 'a']:Try to allocate one block for writing, but failed!\n");
+                return -1;
             }
             cursor_addr=virtualDisk+BLOCK_SIZE*new_blocknum;
         }
@@ -131,15 +137,17 @@ int my_write(int fd,int mode){
 
     }else if(mode==2){//插入覆盖写
         int pos;
-        scanf("Input the insert position: %d",&pos);
+        printf("[mode:2] I Please input the insert position: ");
+        scanf("%d",&pos);
         getchar();
         USEROPENS[fd].count=pos;
         int continue_b=USEROPENS[fd].count;//插入指针在总字节的位置 0开始
         if(continue_b+1>ori_length){
             printf("Error [In my_write() mode 'c']: Position of continue bytes error!\n");
+            return -1;
         }
         char str[BLOCK_SIZE*128];
-        scanf("%s",str);
+        scanf("%[^\n]",str);
         getchar();
         int str_len=strlen(str);
         int total_len=+continue_b;
