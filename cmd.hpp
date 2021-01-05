@@ -5,7 +5,7 @@
 #ifndef FILE_SYSTEM_DESIGN_FS_CMD
 #define FILE_SYSTEM_DESIGN_FS_CMD
 
-typedef enum Command
+enum command
 {
     CD      = 1,
     LS      = 2,
@@ -19,6 +19,6 @@ typedef enum Command
     WRITE   = 42,
     EXIT    = 0,
     UNKNOWN = -1,
-} command;
+};
 
 #endif
