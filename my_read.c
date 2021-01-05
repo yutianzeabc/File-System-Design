@@ -9,13 +9,16 @@
 #include "group_link_operator.c"
 
 int my_read(int fd,int len){
+    if(fd>=MAX_OPEN_FILE){
+        printf("[In my_write() mode 'w']:fd out of range!\n");
+        return -1;
+    }
     char str_buff[BLOCK_SIZE*130];//建立读出缓冲区
-
     int id=USEROPENS[fd].direction_chart_id;
     int ori_length=USEROPENS[fd].length;
     if(ori_length<len){
         printf("Error [In my_read()]: Read bytes error! Out of range!\n");
-        return 0;
+        return -1;
     }
     int num_block_allocated=ori_length/BLOCK_SIZE;
     int * begin_addr=(int *)(virtualDisk+BLOCK_SIZE*id);
