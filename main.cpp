@@ -7,7 +7,8 @@
 #include "my_ls.c"
 #include "my_mkdir.c"
 //#include "my_rmdir.c"
-//#include ""
+//#include "my_rm.c"
+#include "my_open_close.c"
 #include "my_start_exit.c"
 #include "term.cpp"
 #include "cmd.hpp"
@@ -75,18 +76,82 @@ int main(int argc, char const *argv[])
                     cout << "Illegal Command" << endl;
                 }
                 break;
+
             case CREATE:
                 if (in_vec.size() == 2)
                 {
-                    // TODO:no my_create
                     char *filename = (char *)(in_vec[1]).c_str();
-                    //my_create(filename);
+                    my_create(filename);
                 }
                 else
                 {
                     cout << "Illegal Command" << endl;
                 }
                 break;
+
+            case CREATE:
+                if (in_vec.size() == 2)
+                {
+                    char *filename = (char *)(in_vec[1]).c_str();
+                    my_create(filename);
+                }
+                else
+                {
+                    cout << "Illegal Command" << endl;
+                }
+                break;
+
+            case RM:
+                if (in_vec.size() == 2)
+                {
+                    // TODO:no my_rm
+                    char *filename = (char *)(in_vec[1]).c_str();
+                    //my_rm(filename);
+                }
+                else
+                {
+                    cout << "Illegal Command" << endl;
+                }
+                break;
+
+            case OPEN:
+                if (in_vec.size() == 2)
+                {
+                    char *filename = (char *)(in_vec[1]).c_str();
+                    my_open(filename);
+                }
+                else
+                {
+                    cout << "Illegal Command" << endl;
+                }
+                break;
+
+            case CLOSE:
+                if (in_vec.size() == 2)
+                {
+                    char *fd_s = (char *)(in_vec[1]).c_str();
+                    int fd = atoi(fd_s);
+                    my_close(fd);
+                }
+                else
+                {
+                    cout << "Illegal Command" << endl;
+                }
+                break;
+
+            case READ:
+                if (in_vec.size() == 2)
+                {
+                    char *fd_s = (char *)(in_vec[1]).c_str();
+                    int fd = atoi(fd_s);
+                    my_close(fd);
+                }
+                else
+                {
+                    cout << "Illegal Command" << endl;
+                }
+                break;
+
             case EXIT:
                 // TODO: Exit & Cleanup
                 break;
@@ -94,6 +159,7 @@ int main(int argc, char const *argv[])
             case UNKNOWN:
                 cout << "Unknown Command" << endl;
                 break;
+
             default:
                 break; // INPOSSIBLE
             }
