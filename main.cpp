@@ -6,6 +6,7 @@
 #include "my_cd.c"
 #include "my_ls.c"
 #include "my_mkdir.c"
+//#include "my_rmdir.c"
 #include "my_start_exit.c"
 #include "term.cpp"
 #include "cmd.hpp"
@@ -64,15 +65,27 @@ int main(int argc, char const *argv[])
             case RMDIR:
                 if (in_vec.size() == 2)
                 {
+                    // TODO:no my_rmdir
                     char *dirname = (char *)(in_vec[1]).c_str();
-                    my_rmdir(dirname);
+                    //my_rmdir(dirname);
                 }
                 else
                 {
                     cout << "Illegal Command" << endl;
                 }
                 break;
-
+            case CREATE:
+                if (in_vec.size() == 2)
+                {
+                    // TODO:no my_create
+                    char *filename = (char *)(in_vec[1]).c_str();
+                    //my_create(filename);
+                }
+                else
+                {
+                    cout << "Illegal Command" << endl;
+                }
+                break;
             case EXIT:
                 // TODO: Exit & Cleanup
                 break;
