@@ -18,6 +18,8 @@ typedef struct BLOCK0
     int block_size;          //磁盘块大小
     int block_num;           //磁盘块数量
     int root;                //根目录的起始盘块号
+    int super_block;         //超级快盘起始块号
+    int inode_table;         //索引节点块起始盘块号
     char *inode_table_start; //虚拟磁盘上索引节点开始位置
     char *root_start;        //虚拟磁盘上根目录开始位置
     char *data_start;        //虚拟磁盘上数据区开始位置
@@ -28,13 +30,13 @@ typedef struct BLOCK0
 typedef struct USEROPEN
 {
     char filename[20];
-    int inode_id;
     int attribute;
     int access;
+    int inode_id;             //
     unsigned long time;
     unsigned long date;
     unsigned long length;
-//    char dir[20];             //文件打开路径
+    char dir[80];             //文件打开路径
     int direction_chart_id;   //文件索引表所在磁盘块号
     int count;                //读写指针位置
     int inodestate;           //索引节点是否修改
@@ -52,7 +54,6 @@ char *virtualDisk;            //虚拟磁盘指针
 int *S_free;                  //空闲盘块栈顶指针
 static int inode_id = 0;      //索引节点全局编号
 int curr_dir_inode;           //当前目录文件的索引节点编号
-//char curr_dir_name[20] = {};       //当前目录文件的目录名
 useropen USEROPENS[10];       //系统文件打开表
 
 #endif //FILE_SYSTEM_DESIGN_FS_H
