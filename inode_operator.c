@@ -10,6 +10,7 @@
 #include <time.h>
 #include "inode.h"
 #include "fs.h"
+#include "c_operator.h"
 
 /*获取当前时间*/
 unsigned long get_time()
