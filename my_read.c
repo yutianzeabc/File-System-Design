@@ -10,9 +10,10 @@
 #include "inode.h"
 #include <string.h>
 #include <stdio.h>
-#include "group_link_operator.c"
+#include "c_operator.h"
 
-int my_read(int fd,int len){
+int my_read(int fd,int len)
+{
     if(fd>=MAX_OPEN_FILE){
         printf("[In my_write() mode 'w']:fd out of range!\n");
         return -1;
