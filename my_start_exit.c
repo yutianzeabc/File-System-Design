@@ -7,7 +7,7 @@
 
 #include "fs.h"
 #include "inode.h"
-#include "my_open_close.c"
+#include "c_operator.h"
 
 int start_sys()
 {
@@ -17,7 +17,6 @@ int start_sys()
 
 int exit_sys()
 {
-  {
     // TODO: Store & Exit FS
     return 0;
 }
