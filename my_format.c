@@ -9,9 +9,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "fs.h"
-#include "group_link_operator.c"
-#include "inode_operator.c"
-#include "my_ls.c"
+#include "c_operator.h"
+
 
 void my_format()
 {
