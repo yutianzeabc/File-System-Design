@@ -17,9 +17,9 @@ int my_write(int fd,int mode){
         printf("[In my_write() mode 'w']:Illegal fd!\n");
         return -1;
     }
-    for(int kk=0;kk<MAX_OPEN_FILE;kk++){
-        printf("openlist[%d]:openlabel=%d",kk,USEROPENS[kk].openlabel);
-    }
+    // for(int kk=0;kk<MAX_OPEN_FILE;kk++){
+    //     printf("openlist[%d]:openlabel=%d",kk,USEROPENS[kk].openlabel);
+    // }
     if(USEROPENS[fd].openlabel==0){
         printf("[In my_write() mode 'w']:fd not inuse!\n");
         return -1;
@@ -42,39 +42,55 @@ int my_write(int fd,int mode){
         /////
         getchar();
         int str_len=strlen(str);
+        int STRLEN=str_len;
         char * cursor_addr=init_addr;
-        int cnt=1;
+        int i=0;
         while(str_len/BLOCK_SIZE){
-            memcpy(cursor_addr,str+BLOCK_SIZE,sizeof(char)*BLOCK_SIZE);
-            int new_blocknum=request_block();//申请
-            *((int *)(begin_addr+(2*cnt)*sizeof(int)))=cnt;//写到文件索引表 第一列
-            *((int *)(begin_addr+(2*cnt+1)*sizeof(int)))=new_blocknum;//写到文件索引表 第二列
-            cnt=cnt+1;
-            if(new_blocknum==-1){
-                printf("[In my_write() mode 'w']:Try to allocate one block for writing, but failed!\n");
-                return -1;
-            }
-            cursor_addr=(char*)virtualDisk+BLOCK_SIZE*new_blocknum;
+            memcpy(cursor_addr,str+BLOCK_SIZE*i,sizeof(char)*BLOCK_SIZE);
+            printf("%d B write to fd %d\n",BLOCK_SIZE,fd);
             str_len=str_len-BLOCK_SIZE;
+            if(str_len>0){//
+                int new_blocknum=request_block();//申请
+                *((int *)(begin_addr+(2*(i+1))*sizeof(int)))=i+1;//写到文件索引表 第一列
+                *((int *)(begin_addr+(2*(i+1)+1)*sizeof(int)))=new_blocknum;//写到文件索引表 第二列
+                i=i+1;
+                if(new_blocknum==-1){
+                    printf("[In my_write() mode 'w']:Try to allocate one block for writing, but failed!\n");
+                    return -1;
+                }
+                cursor_addr=(char*)virtualDisk+BLOCK_SIZE*new_blocknum;   
+                
+            }
         }
-        memcpy(init_addr,str,sizeof(char)*str_len);
-        USEROPENS[fd].length=str_len;//更新USEROPENS中长度
-	printf("%d B write to fd %d\n",str_len,fd);        
+        if(str_len>0){
+            memcpy(cursor_addr,str+BLOCK_SIZE*i,sizeof(char)*str_len);
+            printf("%d B write to fd %d\n",str_len,fd); 
+        }
+        USEROPENS[fd].length=STRLEN;//更新USEROPENS中长度
+	           
     }else if(mode==1){//追加写
         printf("[mode:1] A\n");
-        int i=0;
-        for(i=0;i<=num_block_allocated;i++){
-            int logic_num=*((int *)(begin_addr+2*i*sizeof(int)));
-            printf("logic_block[%d]:%d ;",i,logic_num);
-            int physics_blocknum=*((int *)(begin_addr+(2*i+1)*sizeof(int)));
-            printf("physics_block[%d]:%d .\n",i,physics_blocknum);
+        //t作用域
+        int t=0;
+        
+        for(t=0;t<num_block_allocated;t++){
+            int logic_num=*((int *)(begin_addr+2*t*sizeof(int)));
+            printf("logic_block[%d]:%d ;",t,logic_num);
+            int physics_blocknum=*((int *)(begin_addr+(2*t+1)*sizeof(int)));
+            printf("physics_block[%d]:%d .\n",t,physics_blocknum);
         }
+        //end t作用域
+        
         //获取之前文件的盘块使用情况和last_pointer位置
         int last_pointer=0;
-        if((last_pointer=ori_length%1024)==0){
-            printf("Already used blocks %d,last_pointer(in new block):%d",i,last_pointer);
+        if((last_pointer=ori_length%BLOCK_SIZE)==0){   
+             printf("Already used blocks %d,last_pointer(in new):%d\n",t,last_pointer);
         }else{
-            printf("Already used blocks %d,last_pointer:%d",i,last_pointer);
+            int logic_num=*((int *)(begin_addr+2*t*sizeof(int)));
+            printf("logic_block[%d]:%d ;",t,logic_num);
+            int physics_blocknum=*((int *)(begin_addr+(2*t+1)*sizeof(int)));
+            printf("physics_block[%d]:%d .\n",t,physics_blocknum);
+            printf("Already used blocks %d,last_pointer:%d\n",t+1,last_pointer); 
         }
         
         char str[BLOCK_SIZE*128]={'\0'};
@@ -94,18 +110,25 @@ int my_write(int fd,int mode){
         }
         //total_len作用结束，仅作check用
         
+        
+
         int waiting_len=str_len;
-        int cnt=i+1;//指到逻辑上下一盘块号（此时是未分配的，待命）
+        //t指到逻辑上最后一个盘块号
+        int cnt;//cnt指到逻辑上下一盘块号（此时是未分配的，待命）
         char *init_addr=NULL;
         char *cursor_addr=NULL;
         
         //为init_addr和cursor_addr赋值
         if(last_pointer>0){
-            int init_blocknum=*(int *)(begin_addr+(i*2+1)*sizeof(int));
+            cnt=num_block_allocated+1;//指到逻辑上下一盘块号（此时是未分配的，待命）
+            int init_blocknum=*((int *)(begin_addr+(num_block_allocated*2+1)*sizeof(int)));
+            // printf("resumefrom_blocknum:%d\n",init_blocknum);
             init_addr=virtualDisk+BLOCK_SIZE*init_blocknum;
             cursor_addr=init_addr;
         }else if(last_pointer==0){//文件写至前面盘块恰好用完
-            if (i!=0)//特判空文件
+            
+            cnt=num_block_allocated;//指到逻辑上下一盘块号（此时是未分配的，待命）
+            if (t!=0)//特判空文件
             {
                 //！此时的这个文件并非刚打开的空文件（逻辑盘块0肯定是已经分配好的了）
                 //提前分一个新盘块
@@ -146,7 +169,7 @@ int my_write(int fd,int mode){
         //剩余
         memcpy(cursor_addr+last_pointer,str+str_cursor,waiting_len*sizeof(char));
         USEROPENS[fd].length+=str_len;//更新USEROPENS中长度
-
+        printf("%d B added!",str_len);
 
     }else if(mode==2){//插入覆盖写
         int pos;

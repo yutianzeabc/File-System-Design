@@ -29,7 +29,7 @@ int my_read(int fd,int len)
         return -1;
     }
     int num_block_allocated=ori_length/BLOCK_SIZE;
-    printf("num_block_allocated: %d,id:%d\n",num_block_allocated,id);
+    printf("Total blocks: %d, direction_chart_id:%d\n",num_block_allocated+1,id);
     int* begin_addr=(int *)(virtualDisk+BLOCK_SIZE*id);
     int i=0;//逻辑盘块号，从0开始记录
 
@@ -37,23 +37,25 @@ int my_read(int fd,int len)
     int pysic_num;
     char* pysic_addr;
     while(len/BLOCK_SIZE){
-        printf("pysic_num?\n");
+
         pysic_num=*(begin_addr+(2*i+1));
         printf("pysic_num:%d\n",pysic_num);
         pysic_addr=virtualDisk+BLOCK_SIZE*pysic_num;
         memcpy(str_buff+already_copy,pysic_addr,BLOCK_SIZE);
         len=len-BLOCK_SIZE;
         already_copy=already_copy+BLOCK_SIZE;
+        i=i+1;
     }
-    printf("pysic_num?\n");
-    pysic_num=*(begin_addr+(2*i+1));
-    printf("pysic_num:%d\n",pysic_num);
-    pysic_addr=virtualDisk+BLOCK_SIZE*pysic_num;
-    memcpy(str_buff+already_copy,pysic_addr,len);
+    if(len>0){//针对恰好写满盘块的情况
+        pysic_num=*(begin_addr+(2*i+1));
+        printf("pysic_num:%d\n",pysic_num);
+        pysic_addr=virtualDisk+BLOCK_SIZE*pysic_num;
+        memcpy(str_buff+already_copy,pysic_addr,len);
+    }
     already_copy=already_copy+len;
     printf("%d B read! Finish!\n",already_copy);
     str_buff[already_copy]='\0';
-    printf("%s\n",str_buff);
+    printf("strlen:%d\ncontext:%s\n",strlen(str_buff),str_buff);
     return 0;
 
 }
