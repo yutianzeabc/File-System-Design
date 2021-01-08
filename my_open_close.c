@@ -7,7 +7,9 @@
 
 #include "fs.h"
 #include "inode.h"
-#include "inode_operator.c"
+#include <stdio.h>
+#include <string.h>
+#include "c_operator.h"
 
 int my_open(char *filename)
 {
