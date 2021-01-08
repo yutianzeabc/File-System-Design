@@ -36,14 +36,27 @@ int my_create(char *filename)
         return -1;
     }
     return 0;
-}
+
+    //
+
+    int New_node_id;
+    struct innode *New_node;
+
+    New_node_id = create_inode();
+    New_node = get_inode_point(New_node_id);
+
+    New_node->attribute = 0;
+    New_node->access = 7;
+    New_node->direction_chart_id = request_block();
+    New_node->length = 0;
+
+    //
+
+    index_element *index_start = virtualDisk + New_node->direction_chart_id*BLOCK_SIZE;
+    index_start->logical_id = 0;
+    index_start->physical_id = New_node->direction_chart_id;
+
+    //
 
     
-
-
-
-
-
-
-
 }
