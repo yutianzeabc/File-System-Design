@@ -8,10 +8,10 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <cstdio>
 #include <vector>
 #include <algorithm>
 #include "cmd.hpp"
+#include "cpp_operator.h"
 
 using namespace std;
 
