@@ -3,27 +3,17 @@
 //
 
 #include <iostream>
-#include <cstdio>
 #include <string>
 #include <vector>
-#include "fs.h"
-#include "my_cd.c"
-#include "my_ls.c"
-#include "my_mkdir.c"
-//#include "my_rmdir.c"
-//#include "my_rm.c"
-#include "my_open_close.c"
-#include "my_read.c"
-#include "my_write.c"
-#include "my_start_exit.c"
-#include "term.cpp"
+#include "c_operator.h"
+#include "cpp_operator.h"
 #include "cmd.hpp"
 
 using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    start_sys();
+    my_format();
 
     string in;
     while (1)
@@ -40,7 +30,7 @@ int main(int argc, char const *argv[])
             case CD:
                 if (in_vec.size() == 2)
                 {
-                    char *dirname = (in_vec[1]).c_str();
+                    char *dirname = const_cast<char *>((in_vec[1]).c_str());
                     my_cd(dirname);
                 }
                 else
@@ -63,7 +53,7 @@ int main(int argc, char const *argv[])
             case MKDIR:
                 if (in_vec.size() == 2)
                 {
-                    char *dirname = (in_vec[1]).c_str();
+                    char *dirname = const_cast<char *>((in_vec[1]).c_str());
                     my_mkdir(dirname);
                 }
                 else
@@ -76,8 +66,8 @@ int main(int argc, char const *argv[])
                 if (in_vec.size() == 2)
                 {
                     // TODO:no my_rmdir
-                    char *dirname = (in_vec[1]).c_str();
-                    //my_rmdir(dirname);
+                    char *dirname = const_cast<char *>((in_vec[1]).c_str());
+                    my_rmdir(dirname);
                 }
                 else
                 {
@@ -88,7 +78,7 @@ int main(int argc, char const *argv[])
             case CREATE:
                 if (in_vec.size() == 2)
                 {
-                    char *filename = (in_vec[1]).c_str();
+                    char *filename = const_cast<char *>((in_vec[1]).c_str());
                     my_create(filename);
                 }
                 else
@@ -101,7 +91,7 @@ int main(int argc, char const *argv[])
                 if (in_vec.size() == 2)
                 {
                     // TODO:no my_rm
-                    char *filename = (in_vec[1]).c_str();
+                    char *filename = const_cast<char *>((in_vec[1]).c_str());
                     //my_rm(filename);
                 }
                 else
@@ -113,7 +103,7 @@ int main(int argc, char const *argv[])
             case OPEN:
                 if (in_vec.size() == 2)
                 {
-                    char *filename = (in_vec[1]).c_str();
+                    char *filename = const_cast<char *>((in_vec[1]).c_str());
                     my_open(filename);
                 }
                 else
@@ -125,7 +115,7 @@ int main(int argc, char const *argv[])
             case CLOSE:
                 if (in_vec.size() == 2)
                 {
-                    char *fd_s = (in_vec[1]).c_str();
+                    char *fd_s = const_cast<char *>((in_vec[1]).c_str());
                     int fd = atoi(fd_s);
                     my_close(fd);
                 }
@@ -138,11 +128,11 @@ int main(int argc, char const *argv[])
             case READ:
                 if (in_vec.size() == 3)
                 {
-                    char *fd_s = (in_vec[1]).c_str();
-                    char *len_s = (in_vec[2]).c_str();
+                    char *fd_s = const_cast<char *>((in_vec[1]).c_str());
+                    char *len_s = const_cast<char *>((in_vec[2]).c_str());
                     int fd = atoi(fd_s);
                     int len = atoi(len_s);
-                    my_read(fd, len_s);
+                    my_read(fd, len);
                 }
                 else
                 {
@@ -153,8 +143,8 @@ int main(int argc, char const *argv[])
             case WRITE:
                 if (in_vec.size() == 3)
                 {
-                    char *fd_s = (in_vec[1]).c_str();
-                    char *mode_s = (in_vec[2]).c_str();
+                    char *fd_s = const_cast<char *>((in_vec[1]).c_str());
+                    char *mode_s = const_cast<char *>((in_vec[2]).c_str());
                     int fd = atoi(fd_s);
                     int mode = atoi(mode_s);
                     my_write(fd, mode);
