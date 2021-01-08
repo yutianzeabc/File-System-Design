@@ -54,7 +54,7 @@ int my_create(char *filename)
 
     index_element *index_start = virtualDisk + New_node->direction_chart_id*BLOCK_SIZE;
     index_start->logical_id = 0;
-    index_start->physical_id = New_node->direction_chart_id;
+    index_start->physical_id = request_block();
 
     memcpy(curr_dir_fcb->filename, filename, sizeof(char)*strlen(filename));
     curr_dir_fcb->i_ino = New_node_id;
