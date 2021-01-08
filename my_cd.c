@@ -7,8 +7,9 @@
 
 #include "fs.h"
 #include "inode.h"
-#include "inode_operator.c"
-#include "group_link_operator.c"
+#include "c_operator.h"
+#include <stdio.h>
+#include <string.h>
 
 void my_cd(char *dirname)
 {
