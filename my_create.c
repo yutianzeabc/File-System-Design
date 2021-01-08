@@ -4,8 +4,9 @@
 
 #include "fs.h"
 #include "inode.h"
-#include "inode_operator.c"
-#include "group_link_operator.c"
+#include "c_operator.h"
+#include <stdio.h>
+#include <string.h>
 
 int my_create(char *filename)
 {
@@ -29,18 +30,17 @@ int my_create(char *filename)
         {
             break;
         }
+        curr_dir_fcb++;
     }
 
     if (i < curr_dir_point->length / sizeof(fcb)){
         printf("/n%s is already exist/n ", filename);
         return -1;
     }
-    return 0;
-
     //
 
     int New_node_id;
-    struct innode *New_node;
+    inode *New_node;
 
     New_node_id = create_inode();
     New_node = get_inode_point(New_node_id);
@@ -56,7 +56,9 @@ int my_create(char *filename)
     index_start->logical_id = 0;
     index_start->physical_id = New_node->direction_chart_id;
 
-    //
+    memcpy(curr_dir_fcb->filename, filename, sizeof(char)*strlen(filename));
+    curr_dir_fcb->i_ino = New_node_id;
 
-    
+    curr_dir_point->length += sizeof(fcb);
+    return 0;
 }
