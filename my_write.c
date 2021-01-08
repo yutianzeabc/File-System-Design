@@ -12,10 +12,19 @@
 #include "c_operator.h"
 
 int my_write(int fd,int mode){
-    if(fd>=MAX_OPEN_FILE){
-        printf("[In my_write() mode 'w']:fd out of range!\n");
+
+    if(fd<0||fd>=MAX_OPEN_FILE){
+        printf("[In my_write() mode 'w']:Illegal fd!\n");
         return -1;
     }
+    for(int kk=0;kk<MAX_OPEN_FILE;kk++){
+        printf("openlist[%d]:openlabel=%d",kk,USEROPENS[kk].openlabel);
+    }
+    if(USEROPENS[fd].openlabel==0){
+        printf("[In my_write() mode 'w']:fd not inuse!\n");
+        return -1;
+    }
+    USEROPENS[fd].inodestate=1;
     int id=USEROPENS[fd].direction_chart_id;
     int ori_length=USEROPENS[fd].length;
     int num_block_allocated=ori_length/BLOCK_SIZE;
@@ -25,7 +34,8 @@ int my_write(int fd,int mode){
         printf("[mode:0] W\n");
         int init_blocknum=*((int *)(begin_addr+sizeof(int)));
         char *init_addr=virtualDisk+BLOCK_SIZE*init_blocknum;
-        char str[BLOCK_SIZE*128];
+        char str[BLOCK_SIZE*128]={'\0'};
+        fflush(stdin);
         scanf("%[^\n]",str);
         /////
         //还未做异常处理
@@ -49,7 +59,7 @@ int my_write(int fd,int mode){
         }
         memcpy(init_addr,str,sizeof(char)*str_len);
         USEROPENS[fd].length=str_len;//更新USEROPENS中长度
-        
+	printf("%d B write to fd %d\n",str_len,fd);        
     }else if(mode==1){//追加写
         printf("[mode:1] A\n");
         int i=0;
@@ -67,7 +77,8 @@ int my_write(int fd,int mode){
             printf("Already used blocks %d,last_pointer:%d",i,last_pointer);
         }
         
-        char str[BLOCK_SIZE*128];
+        char str[BLOCK_SIZE*128]={'\0'};
+        fflush(stdin);
         scanf("%[^\n]",str);
         getchar();
         int str_len=strlen(str);

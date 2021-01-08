@@ -11,6 +11,7 @@
 #include <string.h>
 #include "c_operator.h"
 
+
 int my_open(char *filename)
 {
     inode *curr_dir_point = NULL;
@@ -26,24 +27,33 @@ int my_open(char *filename)
     curr_dir_fcb = virtualDisk + curr_dir_index_start->physical_id * BLOCK_SIZE;
 
     int i = 0;
+    for (i = 0; i < MAX_OPEN_FILE; ++i) {
+        if ((USEROPENS[i].openlabel==1) && (strcmp(filename, USEROPENS[i].filename) == 0)) 
+        {
+            printf("[Error:In my_open()]:The file is already opened!\n");
+            return -1;
+        }
+    }
     for (i = 0; i < curr_dir_point->length / sizeof(fcb); ++i)
     {
         if (strcmp(filename, curr_dir_fcb->filename) == 0)
         {
             int j = 0;
-            for (int j = 0; j < 10; j++)
+            for (j = 0; j < 10; j++)
             {
-                if (USEROPENS[i].openlabel == 0)
+                if (USEROPENS[j].openlabel == 0)
                 {
                     break;
                 }
+            
             }
+            
             if (j == 10)
             {
-                printf("[In my_open()]:The Number of open files reached the limit!\n");
+                printf("[Error:In my_open()]:The Number of open files reached the limit!\n");
                 return -1;
             }
-
+        
             inode *target_file_inode = get_inode_point(curr_dir_fcb->i_ino);
             //初始化USEROPEN
             memcpy(USEROPENS[j].filename, filename, sizeof(char) * 20);
@@ -58,13 +68,14 @@ int my_open(char *filename)
             USEROPENS[j].count = 0;
             USEROPENS[j].inodestate = 0; //索引节点打开时设置为未修改
             USEROPENS[j].openlabel = 1;
+
             printf("Open %s with fd %d.\n", filename, j);
             return j;
         }
         curr_dir_fcb++;
     }
 
-    printf("[In my_open()]:No such file!\n");
+    printf("[Error:In my_open()]:No such file!\n");
     return -2;
 }
 
@@ -72,12 +83,12 @@ int my_close(int fd)
 {
     if ((fd < 0) || (fd > 9))
     {
-        printf("[In my_close()]:Illegal fd!\n");
+        printf("[Error:In my_close()]:Illegal fd!\n");
         return -1;
     }
     if (USEROPENS[fd].openlabel == 0)
     {
-        printf("[In my_close()]:fd not in use!\n");
+        printf("[Error:In my_close()]:fd not in use!\n");
         return -2;
     }
 
