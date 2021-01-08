@@ -7,7 +7,8 @@
 
 #include "fs.h"
 #include "inode.h"
-#include "inode_operator.c"
+#include "c_operator.h"
+#include <stdio.h>
 
 void my_ls()
 {
@@ -32,6 +33,7 @@ void my_ls()
         printf("%-8s   %-8lu\n",fcb_temp->filename,fcb_temp->i_ino);
         fcb_temp++;
     }
+    printf("\n");
 }
 
 #endif
