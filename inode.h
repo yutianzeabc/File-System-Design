@@ -23,5 +23,4 @@ typedef struct INODE
     char username[8];            //文件所属用户名
 } inode;
 
-
 #endif //FILE_SYSTEM_DESIGN_INODE_H
