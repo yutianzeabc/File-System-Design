@@ -6,10 +6,10 @@
 #define FILE_SYSTEM_DESIGN_FS_MKDIR
 
 #include <string.h>
+#include <stdio.h>
 #include "fs.h"
 #include "inode.h"
-#include "inode_operator.c"
-#include "group_link_operator.c"
+#include "c_operator.h"
 
 void my_mkdir(char *dirname)
 {
