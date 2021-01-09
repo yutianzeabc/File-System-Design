@@ -52,7 +52,7 @@ typedef struct INDEX_ELEMENT
 char *free_block_stack;       //空闲盘块栈指针
 char *virtualDisk;            //虚拟磁盘指针
 int *S_free;                  //空闲盘块栈顶指针
-static int inode_id = 0;      //索引节点全局编号
+int inode_id;             //索引节点全局编号
 int curr_dir_inode;           //当前目录文件的索引节点编号
 useropen USEROPENS[10];       //系统文件打开表
 
