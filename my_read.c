@@ -46,14 +46,16 @@ int my_read(int fd,int len)
         already_copy=already_copy+BLOCK_SIZE;
         i=i+1;
     }
-    if(len>0){//针对恰好写满盘块的情况
+    if(len>0){
         pysic_num=*(begin_addr+(2*i+1));
         printf("pysic_num:%d\n",pysic_num);
         pysic_addr=virtualDisk+BLOCK_SIZE*pysic_num;
         memcpy(str_buff+already_copy,pysic_addr,len);
     }
+    //len=0 针对恰好写满盘块的情况 空文件也无需特判
+
     already_copy=already_copy+len;
-    printf("%d B read! Finish!\n",already_copy);
+    printf("%d B read! Finish (%d/%d)!\n",already_copy,already_copy,ori_length);
     str_buff[already_copy]='\0';
     printf("strlen:%d\ncontext:%s\n",strlen(str_buff),str_buff);
     return 0;
