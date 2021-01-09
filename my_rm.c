@@ -81,13 +81,15 @@ int my_rm(char *filename)
                 index_start++;
             }
         }
+    }else{
+        for(j=0; j<(target->length/BLOCK_SIZE+1);j++)
+        {
+            printf("Recycle No.%d\n",index_start->physical_id);
+            recycle_block(index_start->physical_id);
+            index_start++;
+        }
     }
-    for(j=0; j<(target->length/BLOCK_SIZE+1);j++)
-    {
-        printf("Recycle No.%d\n",index_start->physical_id);
-        recycle_block(index_start->physical_id);
-        index_start++;
-    }
+    
 
     printf("Recycle No.%d\n",target->direction_chart_id);
     recycle_block(target->direction_chart_id);

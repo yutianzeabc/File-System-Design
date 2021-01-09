@@ -24,7 +24,7 @@ int my_read(int fd,int len)
     if(ori_length<len){
         printf("Error [In my_read()]: Read bytes error! Out of range!\n");
         return -1;
-    }else if(ori_length<0){
+    }else if(len<0){
         printf("Error [In my_read()]: Read bytes error! Illegal Range!\n");
         return -1;
     }
