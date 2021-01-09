@@ -13,7 +13,7 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    my_format();
+    start_sys();
 
     string in;
     while (1)
@@ -90,9 +90,8 @@ int main(int argc, char const *argv[])
             case RM:
                 if (in_vec.size() == 2)
                 {
-                    // TODO:no my_rm
                     char *filename = const_cast<char *>((in_vec[1]).c_str());
-                    //my_rm(filename);
+                    my_rm(filename);
                 }
                 else
                 {
@@ -160,7 +159,6 @@ int main(int argc, char const *argv[])
                 break;
 
             case EXIT:
-                // TODO: Exit & Cleanup
                 exit_sys();
                 return 0;
 
