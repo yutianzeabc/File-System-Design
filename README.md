@@ -4,7 +4,7 @@ A File System Simulator Program Written in C & C++.
    Group 3
    
 ## License
-[MIT License](https://github.com/yutianzeabc/File-System-Design/blob/main/LICENSE)
+[The MIT License](https://github.com/yutianzeabc/File-System-Design/blob/main/LICENSE)
 
 
 ## Compilation
