@@ -35,4 +35,3 @@ int my_rm(char *filename);
 }
 #endif
 #endif //FILE_SYSTEM_DESIGN_C_OPERATOR_H
-
