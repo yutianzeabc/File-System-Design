@@ -30,7 +30,9 @@ void my_rmdir(char *dirname);
 int start_sys();
 int exit_sys();
 int my_write(int fd, int mode);
+int my_rm(char *filename);
 #ifdef __cplusplus
 }
 #endif
 #endif //FILE_SYSTEM_DESIGN_C_OPERATOR_H
+
