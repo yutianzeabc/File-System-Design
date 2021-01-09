@@ -7,7 +7,7 @@ A File System Simulator Program Written in C & C++.
 [The MIT License](https://github.com/yutianzeabc/File-System-Design/blob/main/LICENSE)
 
 
-## Compilation
+## Compile
 
 ### Windows / Linux / macOS
 
