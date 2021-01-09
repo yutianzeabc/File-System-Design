@@ -59,6 +59,11 @@ int start_sys()
 
 int exit_sys()
 {
+    for (int i = 0; i < MAX_OPEN_FILE; ++i)
+    {
+        if (USEROPENS[i].openlabel==1)
+                my_close(i);
+    }
     printf("\nFree Block Stack situation\n");
     S_free = free_block_stack;
     printf("%p %d\n",S_free,*S_free);

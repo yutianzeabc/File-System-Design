@@ -1,2 +1,16 @@
 # File-System-Design
-## @author Group3
+A File System Simulator Program Written in C & C++.
+## Author 
+   Group 3
+   
+## License
+[The MIT License](https://github.com/yutianzeabc/File-System-Design/blob/main/LICENSE)
+
+
+## Compile
+
+### Windows / Linux / macOS
+
+```
+make
+```

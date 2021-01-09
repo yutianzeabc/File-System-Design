@@ -2,6 +2,9 @@
 // Created by 马钵涛 on 2020/1/3
 //
 
+#ifndef FILE_SYSTEM_DESIGN_FS_CREATE
+#define FILE_SYSTEM_DESIGN_FS_CREATE
+
 #include "fs.h"
 #include "inode.h"
 #include "c_operator.h"
@@ -62,3 +65,5 @@ int my_create(char *filename)
     curr_dir_point->length += sizeof(fcb);
     return 0;
 }
+
+#endif

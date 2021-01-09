@@ -45,5 +45,4 @@ void my_cd(char *dirname)
     curr_dir_inode = curr_dir_fcb->i_ino;
 }
 
-
 #endif
