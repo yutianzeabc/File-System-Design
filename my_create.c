@@ -1,5 +1,5 @@
 //
-// Created by 马钵�?on .
+// Created by 马钵涛 on 2020/1/3
 //
 
 #include "fs.h"
@@ -12,9 +12,11 @@ int my_create(char *filename)
 {
 
     inode *curr_dir_point = NULL;
-    curr_dir_point = get_inode_point(curr_dir_inode); //得到当前目录文件的索引节�?
+    curr_dir_point = get_inode_point(curr_dir_inode); //得到当前目录文件的索引节点
+
     int curr_dir_index;
-    curr_dir_index = curr_dir_point->direction_chart_id; //文件索引表所在磁盘块�?
+    curr_dir_index = curr_dir_point->direction_chart_id; //文件索引表所在磁盘块号
+
     index_element *curr_dir_index_start = NULL;
     curr_dir_index_start = virtualDisk + curr_dir_index * BLOCK_SIZE; //找到磁盘块头
 
@@ -32,7 +34,7 @@ int my_create(char *filename)
     }
 
     if (i < curr_dir_point->length / sizeof(fcb)){
-        printf("\n%s is already exist\n ", filename);
+        printf("/n%s is already exist/n ", filename);
         return -1;
     }
     //
@@ -47,13 +49,13 @@ int my_create(char *filename)
     New_node->access = 7;
     New_node->direction_chart_id = request_block();
     New_node->length = 0;
-
+    printf("No.%d distribute to file as index_label\n",New_node->direction_chart_id);
     //
 
     index_element *index_start = virtualDisk + New_node->direction_chart_id*BLOCK_SIZE;
     index_start->logical_id = 0;
     index_start->physical_id = request_block();
-
+    printf("No.%d distribute to file\n",index_start->physical_id);
     memcpy(curr_dir_fcb->filename, filename, sizeof(char)*strlen(filename));
     curr_dir_fcb->i_ino = New_node_id;
 
