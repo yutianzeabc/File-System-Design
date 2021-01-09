@@ -34,6 +34,19 @@ int my_write(int fd,int mode){
         printf("[mode:0] W\n");
         int init_blocknum=*((int *)(begin_addr+sizeof(int)));
         char *init_addr=virtualDisk+BLOCK_SIZE*init_blocknum;
+
+        int start_recycle=0;
+        if(num_block_allocated>0){
+            if(ori_length%BLOCK_SIZE==0){
+                start_recycle=num_block_allocated-1;
+            }else{
+                start_recycle=num_block_allocated;
+            }
+            for(int recycle_num=1;recycle_num<=start_recycle;recycle_num++){
+                recycle_block(*((int *)(begin_addr+(2*recycle_num+1)*sizeof(int))));
+            }
+        }
+        
         char str[BLOCK_SIZE*128]={'\0'};
         fflush(stdin);
         scanf("%[^\n]",str);
@@ -67,7 +80,7 @@ int my_write(int fd,int mode){
             printf("%d B write to fd %d\n",str_len,fd); 
         }
         USEROPENS[fd].length=STRLEN;//更新USEROPENS中长度
-	           
+	    
     }else if(mode==1){//追加写
         printf("[mode:1] A\n");
         //t作用域
@@ -138,6 +151,10 @@ int my_write(int fd,int mode){
                 cnt=cnt+1;
                 init_addr=virtualDisk+BLOCK_SIZE*new_blocknum;
                 cursor_addr=init_addr;
+            }else{
+                //空文件
+                init_addr=virtualDisk+BLOCK_SIZE*(*((int *)(begin_addr+1*sizeof(int))));
+                cursor_addr=init_addr;
             }
         }else{
             printf("Error [In my_write() mode 'a']: lastpointer Error! Range of [0,+)!\n");
@@ -169,7 +186,7 @@ int my_write(int fd,int mode){
         //剩余
         memcpy(cursor_addr+last_pointer,str+str_cursor,waiting_len*sizeof(char));
         USEROPENS[fd].length+=str_len;//更新USEROPENS中长度
-        printf("%d B added!",str_len);
+        printf("%d B added!\n",str_len);
         return 0;
 
     }else if(mode==2){//插入覆盖写
@@ -276,6 +293,7 @@ int my_write(int fd,int mode){
         
         return 0;
     }else{
+        printf("Illegal mode! Mode should be in the range of [0,2]\n");
         return -1;
     }
    
