@@ -118,6 +118,7 @@ void my_format()
     printf("block0.root_start is %p\n",block0_point->root_start);
     printf("block0.data_start is %p\n\n",block0_point->data_start);
 
+    inode_id = 0;
     int root_dir_inode;
     int root_dir_index_label;
     inode *root_dir_inode_point;
@@ -157,16 +158,19 @@ void my_format()
     printf("%-8d     %-8d\n\n",index_label_start->logical_id,index_label_start->physical_id);
 
     my_ls();
-    char *text = "root_dir";
-    memcpy(USEROPENS[0].filename, text, sizeof(char)*strlen(text));
-    USEROPENS[0].time = root_dir_inode_point->time;
-    USEROPENS[0].date = root_dir_inode_point->date;
-    USEROPENS[0].attribute = root_dir_inode_point->attribute;
-    USEROPENS[0].direction_chart_id = root_dir_inode_point->direction_chart_id;
-    USEROPENS[0].openlabel = 1;
-    USEROPENS[0].length = root_dir_inode_point->length;
-    printf("\n%s is opened\n\n",USEROPENS[0].filename);
-
+    //char *text = "root_dir";
+    //memcpy(USEROPENS[0].filename, text, sizeof(char)*strlen(text));
+    //USEROPENS[0].time = root_dir_inode_point->time;
+    //USEROPENS[0].date = root_dir_inode_point->date;
+    //USEROPENS[0].attribute = root_dir_inode_point->attribute;
+    //USEROPENS[0].direction_chart_id = root_dir_inode_point->direction_chart_id;
+    //USEROPENS[0].openlabel = 1;
+    //USEROPENS[0].length = root_dir_inode_point->length;
+    //printf("\n%s is opened\n\n",USEROPENS[0].filename);
+    for (int i=0; i<10; i++)
+    {
+        USEROPENS[i].openlabel = 0;
+    }
 }
 
 #endif
