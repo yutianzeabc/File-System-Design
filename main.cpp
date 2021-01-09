@@ -24,6 +24,7 @@ int main(int argc, char const *argv[])
             vector<string> in_vec = spilt_s(in);
             command cmd = parse_commands(in_vec[0]);
 
+            //TODO: Command Parse & Run
             switch (cmd)
             {
             case CD:
@@ -64,7 +65,7 @@ int main(int argc, char const *argv[])
             case RMDIR:
                 if (in_vec.size() == 2)
                 {
-            
+                    // TODO:no my_rmdir
                     char *dirname = const_cast<char *>((in_vec[1]).c_str());
                     my_rmdir(dirname);
                 }
@@ -162,7 +163,7 @@ int main(int argc, char const *argv[])
                 return 0;
 
             default:
-                break; // IMPOSSIBLE
+                break; // INPOSSIBLE
             }
         }
     }
