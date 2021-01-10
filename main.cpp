@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <cstdio>
 #include <string>
 #include <vector>
 #include "c_operator.h"
@@ -113,9 +114,9 @@ int main(int argc, char const *argv[])
                 if (in_vec.size() == 2)
                 {
                     char *fd_s = const_cast<char *>((in_vec[1]).c_str());
-                    int fd = atoi(fd_s);
-                    if (isdigit(fd))
+                    if (isdigit(fd_s[0]))
                     {
+                        int fd = atoi(fd_s);
                         my_close(fd);
                         break;
                     }  
@@ -128,11 +129,10 @@ int main(int argc, char const *argv[])
                 {
                     char *fd_s = const_cast<char *>((in_vec[1]).c_str());
                     char *len_s = const_cast<char *>((in_vec[2]).c_str());
-                    int fd = atoi(fd_s);
-                    int len = atoi(len_s);
-                    if (isdigit(fd) && isdigit(len)) 
+                    if (isdigit(fd_s[0]) && isdigit(len_s[0])) 
                     {
-                        
+                        int fd = atoi(fd_s);
+                        int len = atoi(len_s);
                         my_read(fd, len);
                         break;
                     }
@@ -145,10 +145,10 @@ int main(int argc, char const *argv[])
                 {
                     char *fd_s = const_cast<char *>((in_vec[1]).c_str());
                     char *mode_s = const_cast<char *>((in_vec[2]).c_str());
-                    int fd = atoi(fd_s);
-                    int mode = atoi(mode_s);
-                    if (isdigit(fd) && isdigit(mode)) 
+                    if (isdigit(fd_s[0]) && isdigit(mode_s[0])) 
                     {
+                        int fd = atoi(fd_s);
+                        int mode = atoi(mode_s);
                         my_write(fd, mode);
                         break;
                     }
