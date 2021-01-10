@@ -24,7 +24,6 @@ int main(int argc, char const *argv[])
             vector<string> in_vec = spilt_s(in);
             command cmd = parse_commands(in_vec[0]);
 
-            //TODO: Command Parse & Run
             switch (cmd)
             {
             case CD:
@@ -65,7 +64,6 @@ int main(int argc, char const *argv[])
             case RMDIR:
                 if (in_vec.size() == 2)
                 {
-                    // TODO:no my_rmdir
                     char *dirname = const_cast<char *>((in_vec[1]).c_str());
                     my_rmdir(dirname);
                 }
@@ -116,12 +114,13 @@ int main(int argc, char const *argv[])
                 {
                     char *fd_s = const_cast<char *>((in_vec[1]).c_str());
                     int fd = atoi(fd_s);
-                    my_close(fd);
+                    if (isdigit(fd))
+                    {
+                        my_close(fd);
+                        break;
+                    }  
                 }
-                else
-                {
-                    cout << "Illegal Command" << endl;
-                }
+                cout << "Illegal Command" << endl;
                 break;
 
             case READ:
@@ -131,12 +130,14 @@ int main(int argc, char const *argv[])
                     char *len_s = const_cast<char *>((in_vec[2]).c_str());
                     int fd = atoi(fd_s);
                     int len = atoi(len_s);
-                    my_read(fd, len);
+                    if (isdigit(fd) && isdigit(len)) 
+                    {
+                        
+                        my_read(fd, len);
+                        break;
+                    }
                 }
-                else
-                {
-                    cout << "Illegal Command" << endl;
-                }
+                cout << "Illegal Command" << endl;
                 break;
 
             case WRITE:
@@ -146,12 +147,13 @@ int main(int argc, char const *argv[])
                     char *mode_s = const_cast<char *>((in_vec[2]).c_str());
                     int fd = atoi(fd_s);
                     int mode = atoi(mode_s);
-                    my_write(fd, mode);
+                    if (isdigit(fd) && isdigit(mode)) 
+                    {
+                        my_write(fd, mode);
+                        break;
+                    }
                 }
-                else
-                {
-                    cout << "Illegal Command" << endl;
-                }
+                cout << "Illegal Command" << endl;
                 break;
 
             case UNKNOWN:
@@ -163,7 +165,7 @@ int main(int argc, char const *argv[])
                 return 0;
 
             default:
-                break; // INPOSSIBLE
+                break; // IMPOSSIBLE
             }
         }
     }
