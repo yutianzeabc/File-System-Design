@@ -42,17 +42,3 @@ command parse_commands(string cmd) {
 
 #endif
 
-#ifdef TERM_DEBUG
-int main(int argc, char const *argv[])
-{
-    string s;
-    getline(cin,s);
-    vector<string> vec = spilt_s(s);
-//    cout<<vec.size();
-    for (string i:vec) {
-        cout<<i<<endl;
-    }
-    return 0;
-}
-#endif
-
