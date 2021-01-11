@@ -5,7 +5,6 @@
 #ifndef FILE_SYSTEM_DESIGN_FS_READ
 #define FILE_SYSTEM_DESIGN_FS_READ
 
-#include "common.h"
 #include "fs.h"
 #include "inode.h"
 #include <string.h>
