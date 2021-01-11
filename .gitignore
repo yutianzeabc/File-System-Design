@@ -32,7 +32,7 @@
 *.dylib
 
 # Executables
-file_system
+file_system*
 *.exe
 *.out
 *.app
@@ -56,4 +56,4 @@ Mkfile.old
 dkms.conf
 
 # Data files
-store_file_system
+store_file_system*
